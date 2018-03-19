@@ -26,6 +26,10 @@
 		<script>
 		//if(user.)
 		
+			
+			
+			
+			
 		
 		
 		</script>
@@ -39,10 +43,28 @@
 
 	<body>
 	
-	
+	<div id="banner" >
+			this is the title of our website (img)
+			
+		</div>
 
 	
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	 <form action="${pageContext.servletContext.contextPath}/index" method="get">
+	 	<input type="Submit" name="chatsubmit" value="home">
+	 </form>
 	
 
 

@@ -2,12 +2,12 @@ package website4.controller;
 
 
 
-import website4.model.User;
+import website4.model.usser;
 
 public class modifyuserinfo {
-	private User user;
+	private usser user;
 	
-	public void setModel(User user) {
+	public void setModel(usser user) {
 		
 		
 		this.user = user;
@@ -17,15 +17,5 @@ public class modifyuserinfo {
 	//
 	//similar caveat about the database structure    however for this class id imagine we could prety easyly just modify the user 
 	// object directly
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

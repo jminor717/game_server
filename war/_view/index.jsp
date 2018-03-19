@@ -130,7 +130,13 @@
 		visibility: hidden;
 		}
 		
+		#login{
+		visibility: visible;
 		
+		
+		
+		
+		}
 		
 		
 		
@@ -188,12 +194,12 @@
 		
 		.chatentry{
 		margin-left:16px;
-		
+		white-space:pre-wrap;
 		}
 		.chatheader{
 		text-decoration-color: orange;
 		color: #cc5200;
-	
+		white-space:pre-wrap;
 		
 		}
 		
@@ -228,8 +234,12 @@
 		var chakvisable= true;
 		var acountoptionsvisible = false;
 		var loginvisable = false;
+		var ussing  = "${ user.username    }"
+		var numposts;
+		var chat;
 		
-	
+		
+		
 		
 		function togglechat(){
 			
@@ -265,14 +275,39 @@
 			loginvisable=true;
 			}
 		}
+		function logout(){
+			
+			
+			
+			
+		}
+		
+		
+		
+		
+		
 		
 		function toggleacountoptions(){
+			
 			if(acountoptionsvisible){
 				document.getElementById("acountopt").style.visibility="visible";
 				document.getElementById("acountoptions").style.top="-200px";
 				//document.getElementById("cancleacountopt").style.visibility="hidden";
 				acountoptionsvisible=false;
 				document.getElementById("loginpost").method="get";
+				
+				
+				
+				
+				// if(){
+				//	 document.getElementById("login").innerHTML = "logout";
+				//	 document.getElementById("login").onclick="logout()"
+				// }
+				// else{
+				//	 document.getElementById("login").innerHTML = "login";
+				//	 document.getElementById("login").onclick="logclick()"
+					 
+				// }
 				
 			}
 			else{
@@ -283,14 +318,70 @@
 			}
 			document.getElementById("loginpost").method = "post";
 		}
-		 
-	
+		function post(){
+			
+			 var urlEncodedData = "";
+			var urlEncodedDataPairs = [];
+			var text = document.getElementById("chattextarea").value;
+			document.getElementById("chattextarea").value='';
+			
+			urlEncodedDataPairs.push(encodeURIComponent("usreing") + '=' + encodeURIComponent(ussing));
+			urlEncodedDataPairs.push(encodeURIComponent("chatinputtext") + '=' + encodeURIComponent(text));
+			
+			
+			 urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+			 
+			 
+			 
+			var xmlreq = new XMLHttpRequest();
+			xmlreq.open("post", "index");
+			xmlreq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+			xmlreq.send(urlEncodedData);
+			
+			xmlreq.onload=function(){
+				if (this.status==200){
+					
+					refreshchat();
+				}
+			}
+			
+			
+			
+			
+		}
+		
+		function get(){
+			var xmlreq = new XMLHttpRequest(); 
+			xmlreq.open('get','index'+ encodeURIComponent(ussing),true);
+			xmlreq.send();
+			
+			xmlreq.onload=function(){
+				if (this.status==200){
+					
+				
+				}
+			}
+			refreshchat();
+			 
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		 //Window.sessionStorage.setItem('using', "${ user.username    }");
 	</script>
 	</head>
 
 	<body body onLoad="refreshchat()">
 	
-		
+	
 		
 		
 		
@@ -330,27 +421,44 @@
 		<div id="chatwindow">
 			<div id="chatoptions">
 			<button id="hidechatbutt" onclick="togglechat() ">__</button>
-			<button id="refresfchatbut" onclick="refreshchat() ">refresh</button>
+			<button id="refresfchatbut" onclick="post() ">refresh</button>
 			
 			
 				
 			</div>
 			
 			<div id="chattext">
+			
+		
 			<script>
 			function refreshchat(){
+				
+				
+				numposts=${ chatlength };
+				chat=${chatposts};
+				
+				console.log(chat);
+				console.log("${ user.username    }");
+				console.log(numposts);
+				  var count = Object.keys(chat).length;
+				  console.log(count);
+				
 				 document.getElementById("chattext").innerHTML = "";
-				var numposts= 20;
+				
+			
 				var toAdd = document.createDocumentFragment();
 				for(var i=0; i < numposts; i++){
 				   var newDiv = document.createElement('div');
 				   var newHr = document.createElement('hr');
 				   var newP = document.createElement('p');
 				   var time= new Date();
-				   var posttext="";
-				   var username="jminor717 ";
 				   var now = time.getTime();
-				   var posttime=1521079138360;
+
+				   
+				   var posttext=chat[i].post;
+				   var username=chat[i].username;
+				   username+=" ";
+				   var posttime=chat[i].milstime;
 				   now-=posttime;
 				   if(now<60000){
 					   now=now/1000
@@ -370,13 +478,19 @@
 					   username+=now;
 					   username+=" hours agao"
 				   }
-				   else {
-					   now=now/86400000
+				   else if(now<(86400000*365)) {
+					   now=now/86400000;
 					   now= Math.floor(now);
 					   username+=now;
 					   username+=" days agao"
 				   }
-				   posttext+="\n tcasdhbajveffffffffffffffffffffffff fffffffffff       fffffffffffffffff fffffffffff fffffhve";
+				   else {
+					   now=now/(86400000*365)
+					   now= Math.floor(now);
+					   username+=now;
+					   username+=" years agao"  
+				   }
+				
 				   newDiv.id = 'r'+i;
 				   newDiv.className = 'chatentry';
 				   newP.className='chatheader';
@@ -393,7 +507,8 @@
 				var element = document.getElementById("chattext");
 				element.scrollTop = element.scrollHeight;
 			}
-		
+			
+			setInterval(refreshchat(),1000);
 			</script>
 			
 			</div>
@@ -401,13 +516,13 @@
 			
 			<div id="chatinput">
 				<p>add comment</p>
-				<form action="${pageContext.servletContext.contextPath}/index" method="get">
-					<textarea class="smallroundcorners" name="chatinputtext" rows="6" cols="38" > </textarea>
+				<form action="${pageContext.servletContext.contextPath}/index" method="post">
+					<textarea class="smallroundcorners" name="chatinputtext" rows="5" cols="38" id="chattextarea" > </textarea>
 				
 				
-					<input type="Submit" name="chatsubmit" value="post">
+					<button>Send Meeeeeee!</button>
 				</form>
-			
+				<button onclick="post() ">Send Me!</button>
 				
 				
 				
@@ -470,7 +585,7 @@
 			
 			
 			<div class= "gamedisplay">
-				<img src="img/giph.gif"  />
+				<img src="img/giphy.gif"  />
 					
 				<div class="gametitle">
 					game4
