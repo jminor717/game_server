@@ -77,10 +77,9 @@
 	
 	
 	
-	<div id="banner" onclick="home()">
-			this is the title of our website (img)
-			
-		</div> 
+	<div id="banner">
+	this is the title of our website (img)	
+	</div> 
 		
 	<form border-width = "5" action="${pageContext.servletContext.contextPath}/newuser" method="post" align = "center">
   	
@@ -108,6 +107,10 @@
 	
 	
 	<input type="submit" name="submit" value="Create Account">
+	
+	</form>
+	<form action="${pageContext.servletContext.contextPath}/index" method="get" align = "center">
+	<input type="submit" name="home" value="Home">
 	</form>
 	
 	</box>
